@@ -4,7 +4,9 @@ import Photo from "@/lib/models/Photo";
 import Job from "@/lib/models/Job";
 import Anthropic from "@anthropic-ai/sdk";
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+function getAnthropic() {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
 
 export async function POST(req: Request) {
   try {
@@ -23,7 +25,7 @@ export async function POST(req: Request) {
         const base64 = photo.imageBase64.replace(/^data:image\/\w+;base64,/, "");
         const mediaType = photo.imageBase64.startsWith("data:image/png") ? "image/png" : "image/jpeg";
 
-        const message = await anthropic.messages.create({
+        const message = await getAnthropic().messages.create({
           model: "claude-sonnet-4-20250514",
           max_tokens: 500,
           messages: [

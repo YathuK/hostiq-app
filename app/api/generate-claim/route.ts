@@ -6,7 +6,9 @@ import Job from "@/lib/models/Job";
 import Property from "@/lib/models/Property";
 import Anthropic from "@anthropic-ai/sdk";
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+function getAnthropic() {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
 
 export async function POST(req: Request) {
   try {
@@ -27,7 +29,7 @@ export async function POST(req: Request) {
       .map((c: any) => `- ${c.item}: $${c.cost}`)
       .join("\n");
 
-    const message = await anthropic.messages.create({
+    const message = await getAnthropic().messages.create({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1500,
       messages: [

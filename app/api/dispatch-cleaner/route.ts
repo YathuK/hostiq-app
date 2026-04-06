@@ -4,14 +4,14 @@ import Job from "@/lib/models/Job";
 import Property from "@/lib/models/Property";
 import twilio from "twilio";
 
-const client = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
+function getTwilioClient() {
+  return twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+}
 
 export async function POST(req: Request) {
   try {
     await dbConnect();
+    const client = getTwilioClient();
     const { jobId } = await req.json();
     const job = await Job.findById(jobId);
     if (!job) return NextResponse.json({ error: "Job not found" }, { status: 404 });
