@@ -11,13 +11,18 @@ const handler = NextAuth({
         email: { label: "Email", type: "email" },
       },
       async authorize(credentials) {
-        if (!credentials?.email) return null;
-        await dbConnect();
-        let host = await Host.findOne({ email: credentials.email });
-        if (!host) {
-          host = await Host.create({ email: credentials.email });
+        try {
+          if (!credentials?.email) return null;
+          await dbConnect();
+          let host = await Host.findOne({ email: credentials.email });
+          if (!host) {
+            host = await Host.create({ email: credentials.email });
+          }
+          return { id: host._id.toString(), email: host.email };
+        } catch (error) {
+          console.error("Auth authorize error:", error);
+          return null;
         }
-        return { id: host._id.toString(), email: host.email };
       },
     }),
   ],
@@ -42,6 +47,7 @@ const handler = NextAuth({
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true,
 });
 
 export { handler as GET, handler as POST };
