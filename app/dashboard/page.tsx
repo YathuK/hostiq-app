@@ -1,9 +1,10 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import PropertyCard from "@/components/app/PropertyCard";
+import AppHeader from "@/components/app/AppHeader";
 import Link from "next/link";
 
 interface Property {
@@ -19,7 +20,7 @@ interface Job {
 }
 
 export default function DashboardPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [properties, setProperties] = useState<Property[]>([]);
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -78,26 +79,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-100 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="text-xl font-bold text-primary">HostIQ</div>
-          <div className="flex items-center gap-4">
-            <Link href="/messages" className="text-sm text-primary font-medium hover:text-primary-dark">
-              Messages
-            </Link>
-            <Link href="/settings" className="text-sm text-slate-500 hover:text-dark">
-              Settings
-            </Link>
-            <span className="text-sm text-slate-500">{session?.user?.email}</span>
-            <button
-              onClick={() => signOut({ callbackUrl: "/" })}
-              className="text-sm text-slate-500 hover:text-dark"
-            >
-              Log out
-            </button>
-          </div>
-        </div>
-      </header>
+      <AppHeader activePage="dashboard" />
 
       <main className="max-w-6xl mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-8">

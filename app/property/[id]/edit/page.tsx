@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import AppHeader from "@/components/app/AppHeader";
 
@@ -16,10 +16,13 @@ const defaultChecklist = [
   "Check for guest damage",
 ];
 
-export default function SetupPage() {
+export default function PropertyEditPage() {
   const { status } = useSession();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const params = useParams();
+  const propertyId = params.id as string;
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
     name: "",
     icalUrl: "",
@@ -46,12 +49,55 @@ export default function SetupPage() {
     if (status === "unauthenticated") router.push("/login");
   }, [status, router]);
 
+  useEffect(() => {
+    if (status === "authenticated" && propertyId) {
+      loadProperty();
+    }
+  }, [status, propertyId]);
+
+  async function loadProperty() {
+    try {
+      const res = await fetch(`/api/properties/${propertyId}`);
+      if (!res.ok) {
+        router.push("/dashboard");
+        return;
+      }
+      const data = await res.json();
+      const p = data.property;
+      setForm({
+        name: p.name || "",
+        icalUrl: p.icalUrl || "",
+        accessCode: p.accessCode || "",
+        cleaningFee: p.cleaningFee ? String(p.cleaningFee) : "",
+        primaryCleanerName: p.primaryCleaner?.name || "",
+        primaryCleanerPhone: p.primaryCleaner?.phone || "",
+        backupCleanerName: p.backupCleaner?.name || "",
+        backupCleanerPhone: p.backupCleaner?.phone || "",
+        checklist: p.checklist?.length > 0 ? p.checklist : defaultChecklist,
+        checkInInstructions: p.guestContext?.checkInInstructions || "",
+        checkOutInstructions: p.guestContext?.checkOutInstructions || "",
+        wifiName: p.guestContext?.wifiName || "",
+        wifiPassword: p.guestContext?.wifiPassword || "",
+        parkingInfo: p.guestContext?.parkingInfo || "",
+        houseRules: p.guestContext?.houseRules || "",
+        nearbyAttractions: p.guestContext?.nearbyAttractions || "",
+        emergencyContact: p.guestContext?.emergencyContact || "",
+        customNotes: p.guestContext?.customNotes || "",
+        autoRespond: p.autoRespond || false,
+      });
+    } catch {
+      router.push("/dashboard");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     try {
-      await fetch("/api/properties", {
-        method: "POST",
+      const res = await fetch(`/api/properties/${propertyId}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name,
@@ -75,11 +121,15 @@ export default function SetupPage() {
           autoRespond: form.autoRespond,
         }),
       });
-      router.push("/dashboard");
+      if (res.ok) {
+        router.push("/dashboard");
+      } else {
+        alert("Failed to update property.");
+      }
     } catch {
-      alert("Failed to save property.");
+      alert("Failed to update property.");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -89,12 +139,32 @@ export default function SetupPage() {
     setForm({ ...form, checklist: updated });
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <AppHeader activePage="property-edit" />
+        <div className="flex items-center justify-center py-20">
+          <p className="text-slate-500">Loading property...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
-      <AppHeader activePage="setup" />
+      <AppHeader activePage="property-edit" />
 
       <main className="max-w-3xl mx-auto px-6 py-8">
-        <h1 className="text-2xl font-bold text-dark mb-8">Add Property</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-bold text-dark">Edit Property</h1>
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="text-sm text-slate-500 hover:text-dark font-medium"
+          >
+            Cancel
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-100 space-y-4">
             <h2 className="text-lg font-semibold text-dark">Property Details</h2>
@@ -322,10 +392,10 @@ export default function SetupPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={saving}
             className="w-full py-4 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors text-lg disabled:opacity-50"
           >
-            {loading ? "Saving..." : "Save Property"}
+            {saving ? "Saving..." : "Save Changes"}
           </button>
         </form>
       </main>

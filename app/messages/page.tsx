@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import AppHeader from "@/components/app/AppHeader";
 import Link from "next/link";
 
 interface Property {
@@ -89,18 +90,7 @@ export default function MessagesPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-100 px-6 py-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="text-xl font-bold text-primary">HostIQ</Link>
-            <span className="text-slate-300">/</span>
-            <span className="text-sm font-medium text-slate-600">Guest Messages</span>
-          </div>
-          <Link href="/dashboard" className="text-sm text-slate-500 hover:text-dark">
-            Dashboard
-          </Link>
-        </div>
-      </header>
+      <AppHeader activePage="messages" />
 
       <main className="max-w-4xl mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-[1fr_340px] gap-8">

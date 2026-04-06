@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import StatusDot from "@/components/app/StatusDot";
+import AppHeader from "@/components/app/AppHeader";
 import Link from "next/link";
 
 interface Photo {
@@ -73,14 +74,7 @@ export default function JobPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-100 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="text-xl font-bold text-primary">HostIQ</div>
-          <button onClick={() => router.push("/dashboard")} className="text-sm text-slate-500 hover:text-dark">
-            Back to Dashboard
-          </button>
-        </div>
-      </header>
+      <AppHeader activePage="job" />
 
       <main className="max-w-6xl mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-8">

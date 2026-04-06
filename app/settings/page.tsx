@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import AppHeader from "@/components/app/AppHeader";
 import Link from "next/link";
 
 export default function SettingsPage() {
@@ -99,16 +100,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-100 px-6 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="text-xl font-bold text-primary">HostIQ</Link>
-            <span className="text-slate-300">/</span>
-            <span className="text-sm font-medium text-slate-600">Settings</span>
-          </div>
-          <Link href="/dashboard" className="text-sm text-slate-500 hover:text-dark">Dashboard</Link>
-        </div>
-      </header>
+      <AppHeader activePage="settings" />
 
       <main className="max-w-3xl mx-auto px-6 py-8">
         <h1 className="text-2xl font-bold text-dark mb-2">Auto-Responder Settings</h1>

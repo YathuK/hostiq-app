@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import AppHeader from "@/components/app/AppHeader";
 
 interface CostItem {
   item: string;
@@ -66,14 +67,7 @@ export default function ClaimPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-100 px-6 py-4 print:hidden">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <div className="text-xl font-bold text-primary">HostIQ</div>
-          <button onClick={() => router.push(`/job/${jobId}`)} className="text-sm text-slate-500 hover:text-dark">
-            Back to Job
-          </button>
-        </div>
-      </header>
+      <AppHeader activePage="claim" />
 
       <main className="max-w-3xl mx-auto px-6 py-8">
         <h1 className="text-2xl font-bold text-dark mb-8">AirCover Claim</h1>
