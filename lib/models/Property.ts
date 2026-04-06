@@ -24,6 +24,19 @@ const PropertySchema = new Schema({
     name: String,
     phone: String,
   },
+  // Guest messaging context
+  guestContext: {
+    checkInInstructions: { type: String, default: "" },
+    checkOutInstructions: { type: String, default: "" },
+    wifiName: { type: String, default: "" },
+    wifiPassword: { type: String, default: "" },
+    parkingInfo: { type: String, default: "" },
+    houseRules: { type: String, default: "" },
+    nearbyAttractions: { type: String, default: "" },
+    emergencyContact: { type: String, default: "" },
+    customNotes: { type: String, default: "" },
+  },
+  autoRespond: { type: Boolean, default: false },
 });
 
 export default models.Property || mongoose.model("Property", PropertySchema);

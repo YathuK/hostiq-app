@@ -82,6 +82,9 @@ export default function DashboardPage() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="text-xl font-bold text-primary">HostIQ</div>
           <div className="flex items-center gap-4">
+            <Link href="/messages" className="text-sm text-primary font-medium hover:text-primary-dark">
+              Messages
+            </Link>
             <span className="text-sm text-slate-500">{session?.user?.email}</span>
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
