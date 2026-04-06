@@ -3,24 +3,30 @@
 const plans = [
   {
     name: "Solo Host",
+    desc: "Perfect for hosts with 1-3 properties",
     price: "$39",
-    unit: "/month per property",
+    unit: "/mo per property",
     features: [
-      "Full autopilot",
-      "Damage documentation",
-      "AirCover claim generator",
-      "Unlimited cleans",
+      "Full autopilot workflow",
+      "Automated cleaner dispatch via SMS",
+      "AI-powered damage detection",
+      "AirCover claim generator with PDF export",
+      "Unlimited cleans per month",
+      "Room-by-room photo documentation",
     ],
   },
   {
     name: "Property Manager",
+    desc: "Built for teams managing 4+ listings",
     price: "$29",
-    unit: "/month per property",
+    unit: "/mo per property",
     features: [
-      "Everything in Solo",
+      "Everything in Solo Host",
       "Multi-property dashboard",
-      "Volume discount",
+      "Volume discount pricing",
       "Priority support",
+      "Team member access",
+      "Custom cleaning checklists per property",
     ],
     popular: true,
   },
@@ -28,50 +34,64 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-24 px-6 bg-slate-50">
+    <section id="pricing" className="py-28 px-6 bg-slate-50/50">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-bold text-dark text-center">
-          Simple pricing. No surprises.
-        </h2>
-        <div className="mt-16 grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+        <div className="text-center mb-20 reveal">
+          <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Pricing</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-dark">
+            Simple pricing. No surprises.
+          </h2>
+          <p className="mt-4 text-lg text-slate-500 max-w-xl mx-auto">
+            Pay per property. Cancel anytime. First month free for early access hosts.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto stagger">
           {plans.map((plan, i) => (
-            <div
+            <article
               key={i}
-              className={`bg-white rounded-xl p-8 shadow-sm border ${
-                plan.popular ? "border-primary ring-2 ring-primary/20" : "border-slate-100"
+              className={`relative bg-white rounded-3xl p-8 md:p-10 border hover-lift ${
+                plan.popular
+                  ? "border-primary shadow-xl shadow-emerald-500/10"
+                  : "border-slate-100"
               }`}
             >
               {plan.popular && (
-                <span className="text-xs font-semibold text-primary uppercase tracking-wider">
-                  Best Value
-                </span>
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                  <span className="px-4 py-1.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg shadow-emerald-500/20">
+                    Best Value
+                  </span>
+                </div>
               )}
-              <h3 className="text-xl font-bold text-dark mt-2">{plan.name}</h3>
-              <div className="mt-4">
-                <span className="text-4xl font-bold text-dark">{plan.price}</span>
-                <span className="text-slate-500 ml-1">{plan.unit}</span>
+              <div className="mb-6">
+                <h3 className="text-xl font-bold text-dark">{plan.name}</h3>
+                <p className="text-sm text-slate-500 mt-1">{plan.desc}</p>
               </div>
-              <ul className="mt-6 space-y-3">
+              <div className="mb-8">
+                <span className="text-5xl font-bold text-dark">{plan.price}</span>
+                <span className="text-slate-400 ml-2">{plan.unit}</span>
+              </div>
+              <ul className="space-y-4 mb-10">
                 {plan.features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-3 text-slate-600">
-                    <svg className="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <li key={j} className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
-                    {f}
+                    <span className="text-slate-600 text-[15px]">{f}</span>
                   </li>
                 ))}
               </ul>
               <a
                 href="#waitlist"
-                className={`mt-8 block text-center py-3 rounded-xl font-semibold transition-colors ${
+                className={`block text-center py-4 rounded-2xl font-semibold text-lg transition-all ${
                   plan.popular
-                    ? "bg-primary text-white hover:bg-primary-dark"
-                    : "border-2 border-slate-200 text-dark hover:border-slate-300"
+                    ? "bg-primary text-white hover:bg-primary-dark shadow-lg shadow-emerald-500/20"
+                    : "bg-slate-50 text-dark hover:bg-slate-100"
                 }`}
               >
                 Join Waitlist
               </a>
-            </div>
+            </article>
           ))}
         </div>
       </div>
