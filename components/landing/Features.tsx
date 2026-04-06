@@ -8,7 +8,8 @@ const features = [
       </svg>
     ),
     title: "Calendar Sync",
-    desc: "Connects to your Airbnb iCal feed. Detects every checkout automatically. Works with any iCal-compatible platform.",
+    desc: "Connects to your Airbnb iCal feed. Detects every checkout automatically. Works with VRBO, Booking.com, and any iCal platform.",
+    gradient: "from-emerald-400 to-teal-500",
   },
   {
     icon: (
@@ -18,6 +19,7 @@ const features = [
     ),
     title: "Auto-Dispatch SMS",
     desc: "SMS your cleaner the moment checkout happens. Job link includes property access code and full checklist.",
+    gradient: "from-blue-400 to-indigo-500",
   },
   {
     icon: (
@@ -27,6 +29,7 @@ const features = [
     ),
     title: "Backup Cleaner",
     desc: "Primary MIA? Backup gets texted in 45 minutes. You get notified. The turnover window is never missed.",
+    gradient: "from-violet-400 to-purple-500",
   },
   {
     icon: (
@@ -37,6 +40,7 @@ const features = [
     ),
     title: "Photo Documentation",
     desc: "Every clean documented with timestamped room-by-room photos. Evidence that holds up for AirCover claims.",
+    gradient: "from-orange-400 to-red-500",
   },
   {
     icon: (
@@ -45,7 +49,8 @@ const features = [
       </svg>
     ),
     title: "AI Damage Detection",
-    desc: "Claude AI scans every photo and flags stains, broken items, and damage. Catches what human eyes miss.",
+    desc: "Claude AI scans every photo. Flags stains, broken items, and missing amenities. Catches what human eyes miss.",
+    gradient: "from-amber-400 to-orange-500",
   },
   {
     icon: (
@@ -55,20 +60,20 @@ const features = [
     ),
     title: "AirCover Claims",
     desc: "Professional claim narrative generated in one click. Includes photos, timeline, and itemized costs. Export as PDF.",
+    gradient: "from-rose-400 to-pink-500",
   },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="py-28 px-6 relative">
-      {/* Subtle background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-400/5 rounded-full blur-[120px]" />
+    <section id="features" className="py-28 px-6 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-400/5 rounded-full blur-[150px]" />
 
       <div className="max-w-6xl mx-auto relative">
         <div className="text-center mb-20 reveal">
           <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Features</p>
           <h2 className="text-3xl md:text-5xl font-bold text-dark">
-            Everything in one <span className="gradient-text">autopilot</span>.
+            Everything in one <span className="gradient-text-animated">autopilot</span>.
           </h2>
           <p className="mt-4 text-lg text-slate-500 max-w-xl mx-auto">
             From calendar sync to insurance claim. Every step automated.
@@ -79,12 +84,15 @@ export default function Features() {
           {features.map((f, i) => (
             <article
               key={i}
-              className="group bg-white rounded-2xl p-8 border border-slate-100 hover-lift"
+              className="group bg-white rounded-3xl p-8 border border-slate-100 hover-glow relative overflow-hidden"
             >
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 text-primary flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-colors">
+              {/* Gradient accent top bar */}
+              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${f.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+
+              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${f.gradient} text-white flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                 {f.icon}
               </div>
-              <h3 className="text-lg font-bold text-dark">{f.title}</h3>
+              <h3 className="text-lg font-bold text-dark group-hover:text-primary transition-colors">{f.title}</h3>
               <p className="mt-3 text-slate-500 leading-relaxed text-[15px]">{f.desc}</p>
             </article>
           ))}

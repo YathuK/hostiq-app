@@ -12,10 +12,10 @@ export default function ScrollReveal() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.08, rootMargin: "0px 0px -60px 0px" }
     );
 
-    document.querySelectorAll(".reveal, .stagger").forEach((el) => {
+    document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger").forEach((el) => {
       observer.observe(el);
     });
 

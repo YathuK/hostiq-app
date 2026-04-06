@@ -7,6 +7,7 @@ import Pricing from "@/components/landing/Pricing";
 import WaitlistForm from "@/components/landing/WaitlistForm";
 import Footer from "@/components/landing/Footer";
 import ScrollReveal from "@/components/landing/ScrollReveal";
+import Marquee from "@/components/landing/Marquee";
 
 // JSON-LD Structured Data for AI SEO and Google
 const jsonLd = {
@@ -177,6 +178,7 @@ export default function Home() {
         </nav>
 
         <Hero />
+        <Marquee />
         <HowItWorks />
         <Problems />
         <Features />
