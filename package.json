@@ -12,6 +12,7 @@
     "@anthropic-ai/sdk": "^0.82.0",
     "@auth/mongodb-adapter": "^3.11.1",
     "ical.js": "^2.2.1",
+    "imapflow": "^1.2.18",
     "mongodb": "^7.1.1",
     "mongoose": "^9.4.1",
     "next": "14.2.35",

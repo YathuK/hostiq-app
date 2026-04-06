@@ -85,6 +85,9 @@ export default function DashboardPage() {
             <Link href="/messages" className="text-sm text-primary font-medium hover:text-primary-dark">
               Messages
             </Link>
+            <Link href="/settings" className="text-sm text-slate-500 hover:text-dark">
+              Settings
+            </Link>
             <span className="text-sm text-slate-500">{session?.user?.email}</span>
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
