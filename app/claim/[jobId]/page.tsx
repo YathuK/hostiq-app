@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import AppHeader from "@/components/app/AppHeader";
+import AppShell from "@/components/app/AppShell";
 
 interface CostItem {
   item: string;
@@ -66,10 +66,8 @@ export default function ClaimPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <AppHeader activePage="claim" />
-
-      <main className="max-w-3xl mx-auto px-6 py-8">
+    <AppShell>
+      <div className="px-6 pt-8 pb-12 lg:px-10 max-w-3xl">
         <h1 className="text-2xl font-bold text-dark mb-8">AirCover Claim</h1>
 
         <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-100 space-y-4 mb-6">
@@ -162,7 +160,7 @@ export default function ClaimPage() {
             </button>
           )}
         </div>
-      </main>
-    </div>
+      </div>
+    </AppShell>
   );
 }

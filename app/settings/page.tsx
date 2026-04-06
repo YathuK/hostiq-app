@@ -3,8 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import AppHeader from "@/components/app/AppHeader";
-import Link from "next/link";
+import AppShell from "@/components/app/AppShell";
 
 export default function SettingsPage() {
   const { status } = useSession();
@@ -99,10 +98,8 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <AppHeader activePage="settings" />
-
-      <main className="max-w-3xl mx-auto px-6 py-8">
+    <AppShell>
+      <div className="px-6 pt-8 pb-12 lg:px-10 max-w-3xl">
         <h1 className="text-2xl font-bold text-dark mb-2">Auto-Responder Settings</h1>
         <p className="text-slate-500 mb-8">Connect your email to automatically respond to Airbnb guest messages.</p>
 
@@ -258,7 +255,7 @@ export default function SettingsPage() {
             {testing ? "Testing..." : "Test Connection"}
           </button>
         </div>
-      </main>
-    </div>
+      </div>
+    </AppShell>
   );
 }

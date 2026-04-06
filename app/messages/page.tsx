@@ -3,8 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import AppHeader from "@/components/app/AppHeader";
-import Link from "next/link";
+import AppShell from "@/components/app/AppShell";
 
 interface Property {
   _id: string;
@@ -89,10 +88,8 @@ export default function MessagesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <AppHeader activePage="messages" />
-
-      <main className="max-w-4xl mx-auto px-6 py-8">
+    <AppShell>
+      <div className="px-6 pt-8 pb-12 lg:px-10 max-w-4xl">
         <div className="grid lg:grid-cols-[1fr_340px] gap-8">
           {/* Main panel - Message assistant */}
           <div>
@@ -230,7 +227,7 @@ export default function MessagesPage() {
             )}
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </AppShell>
   );
 }

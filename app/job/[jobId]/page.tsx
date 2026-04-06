@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import StatusDot from "@/components/app/StatusDot";
-import AppHeader from "@/components/app/AppHeader";
+import AppShell from "@/components/app/AppShell";
 import Link from "next/link";
 
 interface Photo {
@@ -73,10 +73,8 @@ export default function JobPage() {
   if (!job) return <div className="min-h-screen flex items-center justify-center text-slate-500">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <AppHeader activePage="job" />
-
-      <main className="max-w-6xl mx-auto px-6 py-8">
+    <AppShell>
+      <div className="px-6 pt-8 pb-12 lg:px-10 max-w-6xl">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold text-dark">Job Report</h1>
           <StatusDot status={job.status} />
@@ -182,7 +180,7 @@ export default function JobPage() {
             </Link>
           )}
         </div>
-      </main>
-    </div>
+      </div>
+    </AppShell>
   );
 }

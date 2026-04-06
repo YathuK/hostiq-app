@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import AppHeader from "@/components/app/AppHeader";
+import AppShell from "@/components/app/AppShell";
 
 const defaultChecklist = [
   "Vacuum all floors",
@@ -141,20 +141,17 @@ export default function PropertyEditPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50">
-        <AppHeader activePage="property-edit" />
+      <AppShell>
         <div className="flex items-center justify-center py-20">
           <p className="text-slate-500">Loading property...</p>
         </div>
-      </div>
+      </AppShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <AppHeader activePage="property-edit" />
-
-      <main className="max-w-3xl mx-auto px-6 py-8">
+    <AppShell>
+      <div className="px-6 pt-8 pb-12 lg:px-10 max-w-3xl">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold text-dark">Edit Property</h1>
           <button
@@ -398,7 +395,7 @@ export default function PropertyEditPage() {
             {saving ? "Saving..." : "Save Changes"}
           </button>
         </form>
-      </main>
-    </div>
+      </div>
+    </AppShell>
   );
 }
