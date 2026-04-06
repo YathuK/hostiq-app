@@ -6,8 +6,8 @@ const options = {};
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
-if (!uri) {
-  // During build time, provide a dummy promise
+if (!uri || !uri.startsWith("mongodb")) {
+  // During build time or with placeholder values, provide a dummy promise
   clientPromise = new Promise(() => {});
 } else if (process.env.NODE_ENV === "development") {
   const globalWithMongo = global as typeof globalThis & {
