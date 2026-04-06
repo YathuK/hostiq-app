@@ -1,31 +1,42 @@
 import NextAuth from "next-auth";
-import EmailProvider from "next-auth/providers/email";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "@/lib/mongodb-client";
+import CredentialsProvider from "next-auth/providers/credentials";
+import dbConnect from "@/lib/mongodb";
+import Host from "@/lib/models/Host";
 
 const handler = NextAuth({
-  adapter: MongoDBAdapter(clientPromise) as any,
   providers: [
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST || "smtp.gmail.com",
-        port: Number(process.env.EMAIL_SERVER_PORT) || 587,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER || "",
-          pass: process.env.EMAIL_SERVER_PASSWORD || "",
-        },
+    CredentialsProvider({
+      name: "Email",
+      credentials: {
+        email: { label: "Email", type: "email" },
       },
-      from: process.env.EMAIL_FROM || "noreply@hostiq.app",
+      async authorize(credentials) {
+        if (!credentials?.email) return null;
+        await dbConnect();
+        let host = await Host.findOne({ email: credentials.email });
+        if (!host) {
+          host = await Host.create({ email: credentials.email });
+        }
+        return { id: host._id.toString(), email: host.email };
+      },
     }),
   ],
   pages: {
     signIn: "/login",
-    verifyRequest: "/login?verify=true",
+  },
+  session: {
+    strategy: "jwt",
   },
   callbacks: {
-    async session({ session, user }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = user.id;
+        (session.user as any).id = token.id;
       }
       return session;
     },
